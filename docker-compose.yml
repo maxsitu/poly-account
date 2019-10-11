@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_USER: poly
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: account_service
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - /opt/poly-account:/var/lib/postgresql/data/pgdata
+      - ./fixtures/init_docker_db.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
