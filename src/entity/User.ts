@@ -5,23 +5,35 @@ class User {
   @PrimaryColumn()
   public id: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   public username: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   public email: string;
 
   @Column()
   public phone: string;
 
-  @Column()
+  @Column({
+    length: 100,
+  })
   public firstName: string;
 
-  @Column()
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   public middleName: string | null;
 
-  @Column()
+  @Column({
+    length: 100,
+  })
   public lastName: string;
+
   constructor(
     id: string,
     username: string,
