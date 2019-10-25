@@ -1,0 +1,55 @@
+scalar Email
+scalar PhoneNumber
+
+type User {
+    """
+    id of user
+    """
+    id: ID!
+    """
+    username to login
+    """
+    username: String!
+
+    """
+    email of the user
+    """
+    email: Email!
+
+    """
+    phone number of the user
+    """
+    phone: PhoneNumber!
+
+    """
+    first name of the user
+    """
+    firstName: String!
+
+    """
+    middle name of the user
+    """
+    middleName: String
+
+    """
+    last name of the user
+    """
+    lastName: String!
+}
+
+type Query {
+    User(id: ID!): User
+}
+
+input UserInput {
+    username: String!
+    email: Email!
+    phone: PhoneNumber!
+    firstName: String!
+    middleName: String
+    lastName: String!
+}
+
+type Mutation {
+    createUser(userInput: UserInput): User
+}

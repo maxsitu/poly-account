@@ -3,24 +3,43 @@ import express from 'express';
 import graphqlHTTP from 'express-graphql';
 import 'reflect-metadata';
 
-import schema from './graphql/schema';
-import rootValue from './graphql/root';
-import logger from './logging';
+import {IAppContext} from './types';
+import {executableSchema} from './graphql';
+import getLogger from './logging';
+import UserController from './controller/UserController';
 
-createConnection().then(async (connection) => {
+const logger = getLogger(module);
+
+async function main() {
+  try {
+    const connection = await createConnection();
     const app = express();
-    const dev = process.env.NODE_ENV === 'development';
+    const isDev = process.env.NODE_ENV === 'development';
     const port = 8088;
 
-    logger.info(`dev: ${dev}`);
+    const userController = new UserController(connection);
 
-    app.use('/graphql', graphqlHTTP({
-        schema,
-        graphiql: dev,
-        rootValue,
-    }));
+    const context: IAppContext = {
+      userController,
+    };
+
+    logger.debug(`dev: ${isDev}`);
+
+    app.use(
+      '/graphql',
+      graphqlHTTP({
+        schema: executableSchema,
+        graphiql: isDev,
+        context,
+      }),
+    );
 
     app.listen(port, () => {
-        logger.info(`\n\nExpress instance listen at ${port}\n`);
+      logger.info(`\n\nExpress instance listen at ${port}\n`);
     });
-}).catch((error) => logger.error('Database connection error', error));
+  } catch (error) {
+    logger.error('Database connection error', error);
+  }
+}
+
+main();

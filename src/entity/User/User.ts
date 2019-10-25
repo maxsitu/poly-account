@@ -1,4 +1,11 @@
 import { Entity, PrimaryColumn, Column } from 'typeorm';
+import * as yup from 'yup';
+import {UserConstant} from 'src/constant';
+
+const PHONE_REG_EXPR = UserConstant.PHONE__REG_EXPR;
+const FIRST_NAME__MAX_LENGTH = UserConstant.FIRST_NAME__MAX_LENGTH;
+const LAST_NAME__MAX_LENGTH = UserConstant.LAST_NAME__MAX_LENGTH;
+const MIDDLE_NAME__MAX_LENGTH = UserConstant.MIDDLE_NAME__MAX_LENGTH;
 
 @Entity()
 class User {
@@ -53,4 +60,16 @@ class User {
   }
 }
 
-export { User as default };
+const createUserValidationSchema = yup.object().shape({
+  username: yup.string().trim().required(),
+  email: yup.string().email().required(),
+  phone: yup.string().matches(PHONE_REG_EXPR, 'Phone number is not valid'),
+  firstName: yup.string().trim().max(FIRST_NAME__MAX_LENGTH).required(),
+  middleName: yup.string().trim(),
+  lastName: yup.string().trim().max(LAST_NAME__MAX_LENGTH).required(),
+});
+
+export {
+  User,
+  createUserValidationSchema as userValidationSchema,
+};

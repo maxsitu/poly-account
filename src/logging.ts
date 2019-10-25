@@ -1,13 +1,27 @@
-import winston from 'winston';
+import path from 'path';
+import { Logger, createLogger, format, transports } from 'winston';
 
-const logger: winston.Logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.json(),
+const isDev = process.env.NODE_ENV === 'development';
+
+function getLogger(_module: NodeModule): Logger {
+  const filename = path.basename(_module.filename);
+
+  return createLogger({
+    level: isDev ? 'DEBUG' : 'INFO',
+    format: format.combine(
+      format.timestamp({
+        format: 'YYYY-MM-DD HH:mm:ss',
+      }),
+      // for the log file
+      format.printf((info) => `[${info.level}] [${info.timestamp}] [${filename}]: ${info.message}`),
+    ),
     transports: [
-        new winston.transports.Console({ level: 'info' }),
+      new transports.Console({
+        level: 'debug',
+        format: format.combine(format.colorize()),
+      }),
     ],
-});
+  });
+}
 
-export {
-    logger as default,
-};
+export { getLogger as default };
