@@ -1,6 +1,8 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 import * as yup from 'yup';
-import {UserConstant} from 'src/constant';
+
+import { UserConstant } from 'src/constant';
+import { AuthRole } from '../AuthRole';
 
 const PHONE_REG_EXPR = UserConstant.PHONE__REG_EXPR;
 const FIRST_NAME__MAX_LENGTH = UserConstant.FIRST_NAME__MAX_LENGTH;
@@ -41,6 +43,10 @@ class User {
   })
   public lastName: string;
 
+  @ManyToMany((t) => AuthRole)
+  @JoinTable()
+  public roles: AuthRole[];
+
   constructor(
     id: string,
     username: string,
@@ -49,6 +55,7 @@ class User {
     firstName: string,
     middleName: string | null,
     lastName: string,
+    roles: AuthRole[],
   ) {
     this.id = id;
     this.username = username;
@@ -57,19 +64,34 @@ class User {
     this.firstName = firstName;
     this.middleName = middleName;
     this.lastName = lastName;
+    this.roles = roles;
   }
 }
 
-const createUserValidationSchema = yup.object().shape({
-  username: yup.string().trim().required(),
-  email: yup.string().email().required(),
+const userValidationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .trim()
+    .required(),
+  email: yup
+    .string()
+    .email()
+    .required(),
   phone: yup.string().matches(PHONE_REG_EXPR, 'Phone number is not valid'),
-  firstName: yup.string().trim().max(FIRST_NAME__MAX_LENGTH).required(),
-  middleName: yup.string().trim(),
-  lastName: yup.string().trim().max(LAST_NAME__MAX_LENGTH).required(),
+  firstName: yup
+    .string()
+    .trim()
+    .max(FIRST_NAME__MAX_LENGTH)
+    .required(),
+  middleName: yup
+    .string()
+    .trim()
+    .max(MIDDLE_NAME__MAX_LENGTH),
+  lastName: yup
+    .string()
+    .trim()
+    .max(LAST_NAME__MAX_LENGTH)
+    .required(),
 });
 
-export {
-  User,
-  createUserValidationSchema as userValidationSchema,
-};
+export { User, userValidationSchema };

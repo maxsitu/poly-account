@@ -37,19 +37,55 @@ type User {
     lastName: String!
 }
 
+"""
+Account service provide caller with abilities listed below:
+1. Find user info
+"""
 type Query {
+    """
+    Retrieve user info with given id
+    """
     User(id: ID!): User
 }
 
 input UserInput {
+    """
+    username to login
+    """
     username: String!
+
+    """
+    email of the user
+    """
     email: Email!
+
+    """
+    phone number of the user
+    """
     phone: PhoneNumber!
+
+    """
+    first name of the user
+    """
     firstName: String!
+
+    """
+    middle name of the user
+    """
     middleName: String
+
+    """
+    last name of the user
+    """
     lastName: String!
 }
 
+"""
+Mutation methods of account service
+"""
 type Mutation {
+    """
+    Create new user with given user input
+    """
     createUser(userInput: UserInput): User
 }

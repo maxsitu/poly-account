@@ -29,33 +29,17 @@ class UserController {
   }
 
   public async createUser(userInput: IUserInput) {
-    logger.info(`validating userInput: ${JSON.stringify(userInput)}`);
-    const result = await userValidationSchema.validate(userInput);
-    logger.info(`validating result ${JSON.stringify(result)}`);
-
-    logger.info(`creating user with input ${JSON.stringify(userInput)}`);
-    const {
-      username,
-      email,
-      phone,
-      firstName,
-      middleName,
-      lastName,
-    } = userInput;
-
-    const user: User = this.userRepo.create({
+    const userToCreate: User = {
       id: uuidv1(),
-      username,
-      email,
-      phone,
-      firstName,
-      middleName,
-      lastName,
-    });
+      ...userInput,
+      roles: [],
+    };
+    logger.debug(`validating userToCreate:`, JSON.stringify(userToCreate));
+    const result = await userValidationSchema.validate(userToCreate);
 
-    logger.info(`user.username: ${user.username}`);
-    logger.info(`userInput.username: ${userInput.username}`);
-    logger.info(`creating user with user ${JSON.stringify(user)}`);
+    logger.debug(`creating user`);
+    const user: User = this.userRepo.create(userToCreate);
+
     return this.userRepo.save(user);
   }
 }

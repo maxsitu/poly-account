@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Account service built on GraphQL and mysql providing user authenticate/authorization services",
   "main": "start.ts",
+  "build-dir": "dist",
   "scripts": {
     "test": "test",
     "typeorm": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix && rm -rf ./dist",
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix && rm -rf ${npm_package_build-dir}",
     "build": "tsc",
     "dev": "nodemon --config \"./utils/nodemon.json\"",
     "start": "ts-node -r tsconfig-paths/register ./src/start.ts"
@@ -48,6 +49,6 @@
     "typescript": "^3.6.3"
   },
   "files": [
-    "dist/**/*"
+    "${npm_package_build-dir}/**/*"
   ]
 }

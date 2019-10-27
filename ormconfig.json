@@ -18,5 +18,8 @@
     ],
     "cli": {
         "migrationsDir": "src/migration"
+    },
+    "extras": {
+        "connectionLimit": 5
     }
 }
