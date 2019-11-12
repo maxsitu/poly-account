@@ -1,41 +1,55 @@
-import { IUserInput } from 'src/controller/UserController';
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
+
 import { User } from 'src/entity/User';
 import { IAppContext } from 'src/types';
+import { IAuthUser, IAuthPayload, mapUserToIAuthUser } from 'src/graphql/interface';
+
+const APP_SECRET = 'GraphQL-is-aw3some';
 
 interface IGetUserArgs {
-  id: string;
+  email: string;
+}
+
+interface ISignupArgs {
+  email: string;
+  password: string;
 }
 
 async function getUser(
   _: any,
-  { id }: IGetUserArgs,
+  { email }: IGetUserArgs,
   context: IAppContext,
-): Promise<User | null> {
-  return await context.userController.getUser(id);
+): Promise<IAuthUser | null> {
+  const user = await context.userController.getUser(email);
+  return user && mapUserToIAuthUser(user);
 }
 
-interface ICreateUserArgs {
-  userInput: IUserInput;
-}
-
-async function createUser(
+async function signup(
   _: any,
-  { userInput }: ICreateUserArgs,
+  { email, password }: ISignupArgs,
   context: IAppContext,
-): Promise<User> {
-  return await context.userController.createUser(userInput);
+): Promise<IAuthPayload> {
+  const passwordHash = await bcrypt.hash(password, 10);
+  const user: User = await context.userController.createUser(
+    email,
+    passwordHash,
+  );
+  const token = jwt.sign({ userId: user.email }, APP_SECRET);
+
+  return {
+    token,
+    user: mapUserToIAuthUser(user),
+  };
 }
 
-export {
-    IGetUserArgs,
-    ICreateUserArgs,
-};
+export { IGetUserArgs, ISignupArgs };
 
 export default {
-    Query: {
-        User: getUser,
-    },
-    Mutation: {
-        createUser,
-    },
+  Query: {
+    User: getUser,
+  },
+  Mutation: {
+    signup,
+  },
 };

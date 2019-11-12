@@ -34,6 +34,11 @@ Go through following steps to make sure old DB is cleaned up:
    sudo mkdir -p /opt/poly-account
    sudo chown -R $(whoami) /opt/poly-account
    ```
+1. Start docker-compose environment
+
+   ```
+   docker-compose up
+   ```
 1. Apply previous migrations:
    ```
    npm run typeorm migration:run

@@ -1,19 +1,10 @@
 import { Connection, Repository } from 'typeorm';
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import { User, userValidationSchema } from 'src/entity/User/User';
 import getLogger from 'src/logging';
 
 const logger = getLogger(module);
-
-interface IUserInput {
-  username: string;
-  email: string;
-  phone: string;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-}
 
 class UserController {
   public userRepo: Repository<User>;
@@ -28,10 +19,10 @@ class UserController {
     return user || null;
   }
 
-  public async createUser(userInput: IUserInput) {
-    const userToCreate: User = {
-      id: uuidv1(),
-      ...userInput,
+  public async createUser(email: string, password: string) {
+    const userToCreate = {
+      email,
+      password,
       roles: [],
     };
     logger.debug(`validating userToCreate:`, JSON.stringify(userToCreate));
@@ -44,4 +35,4 @@ class UserController {
   }
 }
 
-export { IUserInput, UserController, UserController as default };
+export { UserController, UserController as default };

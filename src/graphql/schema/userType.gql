@@ -3,28 +3,24 @@ scalar PhoneNumber
 
 type User {
     """
-    id of user
-    """
-    id: ID!
-    """
-    username to login
-    """
-    username: String!
-
-    """
     email of the user
     """
     email: Email!
 
     """
+    active state of the user
+    """
+    isActive: Boolean
+
+    """
     phone number of the user
     """
-    phone: PhoneNumber!
+    phone: PhoneNumber
 
     """
     first name of the user
     """
-    firstName: String!
+    firstName: String
 
     """
     middle name of the user
@@ -34,7 +30,17 @@ type User {
     """
     last name of the user
     """
-    lastName: String!
+    lastName: String
+
+    """
+    auth roles of the user
+    """
+    authRoles: [String]!
+
+    """
+    auth permission of the user
+    """
+    authPermissions: [String]!
 }
 
 """
@@ -45,14 +51,13 @@ type Query {
     """
     Retrieve user info with given id
     """
-    User(id: ID!): User
+    User(email: Email!): User
 }
 
+"""
+Expected user input type for signing up
+"""
 input UserInput {
-    """
-    username to login
-    """
-    username: String!
 
     """
     email of the user
@@ -80,12 +85,18 @@ input UserInput {
     lastName: String!
 }
 
+type AuthPayload {
+    user: User!
+    token: String!
+}
+
 """
 Mutation methods of account service
 """
 type Mutation {
+
     """
-    Create new user with given user input
+    Sign up new user
     """
-    createUser(userInput: UserInput): User
+    signup(email: Email!, password: String!): AuthPayload
 }

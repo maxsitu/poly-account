@@ -1,8 +1,9 @@
-import { Entity, PrimaryColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 import * as yup from 'yup';
+import { Entity, PrimaryColumn, Column, ManyToMany, JoinTable, CreateDateColumn } from 'typeorm';
 
 import { UserConstant } from 'src/constant';
 import { AuthRole } from '../AuthRole';
+import { AuthPermission } from '../AuthPermission';
 
 const PHONE_REG_EXPR = UserConstant.PHONE__REG_EXPR;
 const FIRST_NAME__MAX_LENGTH = UserConstant.FIRST_NAME__MAX_LENGTH;
@@ -11,78 +12,69 @@ const MIDDLE_NAME__MAX_LENGTH = UserConstant.MIDDLE_NAME__MAX_LENGTH;
 
 @Entity()
 class User {
-  @PrimaryColumn()
-  public id: string;
+  @PrimaryColumn('varchar')
+  email: string;
 
-  @Column({
-    unique: true,
+  @Column('varchar')
+  password: string;
+
+  @Column('boolean', {
+    default: () => false,
   })
-  public username: string;
+  isActive: boolean;
 
-  @Column({
-    unique: true,
-  })
-  public email: string;
-
-  @Column()
-  public phone: string;
-
-  @Column({
-    length: 100,
-  })
-  public firstName: string;
-
-  @Column({
-    type: 'text',
+  @Column('varchar', {
     nullable: true,
   })
-  public middleName: string | null;
+  phone: string | null;
 
-  @Column({
-    length: 100,
+  @Column('varchar', {
+    nullable: true,
   })
-  public lastName: string;
+  firstName: string | null;
+
+  @Column('varchar', {
+    length: 100,
+    nullable: true,
+  })
+  middleName: string | null;
+
+  @Column('varchar', {
+    nullable: true,
+  })
+  lastName: string | null;
 
   @ManyToMany((t) => AuthRole)
   @JoinTable()
-  public roles: AuthRole[];
+  roles: AuthRole[];
 
-  constructor(
-    id: string,
-    username: string,
-    email: string,
-    phone: string,
-    firstName: string,
-    middleName: string | null,
-    lastName: string,
-    roles: AuthRole[],
-  ) {
-    this.id = id;
-    this.username = username;
-    this.email = email;
-    this.phone = phone;
-    this.firstName = firstName;
-    this.middleName = middleName;
-    this.lastName = lastName;
-    this.roles = roles;
+  @CreateDateColumn({ type: 'timestamptz', default: () => `(now() at time zone 'utc')` })
+  createdAt: Date;
+
+  getPermissions(): AuthPermission[] {
+    const result = new Set<AuthPermission>();
+    this.roles.forEach((role) => {
+      role.permissions.forEach((perm) => {
+        result.add(perm);
+      });
+    });
+
+    return [...result];
   }
 }
 
 const userValidationSchema = yup.object().shape({
-  username: yup
-    .string()
-    .trim()
-    .required(),
   email: yup
     .string()
     .email()
     .required(),
+  password: yup.string().required(),
+  isActive: yup.boolean(),
   phone: yup.string().matches(PHONE_REG_EXPR, 'Phone number is not valid'),
   firstName: yup
     .string()
     .trim()
-    .max(FIRST_NAME__MAX_LENGTH)
-    .required(),
+    .max(FIRST_NAME__MAX_LENGTH),
   middleName: yup
     .string()
     .trim()
@@ -90,8 +82,7 @@ const userValidationSchema = yup.object().shape({
   lastName: yup
     .string()
     .trim()
-    .max(LAST_NAME__MAX_LENGTH)
-    .required(),
+    .max(LAST_NAME__MAX_LENGTH),
 });
 
 export { User, userValidationSchema };
