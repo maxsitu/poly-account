@@ -1,11 +1,11 @@
-scalar Email
+scalar EmailAddress
 scalar PhoneNumber
 
 type User {
     """
     email of the user
     """
-    email: Email!
+    email: EmailAddress!
 
     """
     active state of the user
@@ -51,7 +51,7 @@ type Query {
     """
     Retrieve user info with given id
     """
-    User(email: Email!): User
+    User(email: EmailAddress!): User
 }
 
 """
@@ -62,7 +62,7 @@ input UserInput {
     """
     email of the user
     """
-    email: Email!
+    email: EmailAddress!
 
     """
     phone number of the user
@@ -98,5 +98,6 @@ type Mutation {
     """
     Sign up new user
     """
-    signup(email: Email!, password: String!): AuthPayload
+    signup(email: EmailAddress!, password: String!): AuthPayload
+    login(email: EmailAddress!, password: String!): AuthPayload
 }

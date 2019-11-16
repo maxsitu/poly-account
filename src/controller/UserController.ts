@@ -13,8 +13,8 @@ class UserController {
     this.userRepo = connection.getRepository(User);
   }
 
-  public async getUser(id: string): Promise<User | null> {
-    const user: User | undefined = await this.userRepo.findOne(id);
+  public async getUser(email: string): Promise<User | null> {
+    const user: User | undefined = await this.userRepo.findOne(email, { relations: ['roles']});
     logger.info(`validating result ${JSON.stringify(user)}`);
     return user || null;
   }

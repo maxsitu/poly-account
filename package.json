@@ -9,7 +9,7 @@
     "typeorm": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix && rm -rf ${npm_package_build-dir}",
     "build": "tsc",
-    "dev": "nodemon --config \"./utils/nodemon.json\"",
+    "dev": "nodemon --config \"./nodemon.json\"",
     "start": "ts-node -r tsconfig-paths/register ./src/start.ts"
   },
   "keywords": [

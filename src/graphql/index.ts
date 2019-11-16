@@ -6,7 +6,7 @@ import EmailType from './scalar/EmailAddressType';
 import PhoneNumberType from './scalar/PhoneNumberType';
 
 const enrichedResolvers = Object.assign(resolvers, {
-  Email: EmailType,
+  EmailAddress: EmailType,
   PhoneNumber: PhoneNumberType,
 });
 
