@@ -51,7 +51,7 @@ class User {
   @CreateDateColumn({ type: 'timestamptz', default: () => `(now() at time zone 'utc')` })
   createdAt: Date;
 
-  getPermissions(): AuthPermission[] {
+  getPermissions(): Set<AuthPermission> {
     const result = new Set<AuthPermission>();
     this.roles.forEach((role) => {
       role.permissions.forEach((perm) => {
@@ -59,7 +59,7 @@ class User {
       });
     });
 
-    return [...result];
+    return result;
   }
 }
 

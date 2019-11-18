@@ -31,12 +31,18 @@ interface IAuthPayload {
 function mapUserToIAuthUser(user: User): IAuthUser {
   const { email, isActive, phone, firstName, middleName, lastName } = user;
   const authRoles: string[] = user.roles.map(({ name }: AuthRole) => name);
-  const authPermissions: string[] = user
-    .getPermissions()
-    .map(({ name }: AuthPermission) => name);
+  const authPermissions: string[] = Array.from(
+    user.getPermissions(),
+    ({ name }: AuthPermission) => name,
+  );
 
   return {
-    email, isActive, phone, firstName, middleName, lastName,
+    email,
+    isActive,
+    phone,
+    firstName,
+    middleName,
+    lastName,
     authRoles,
     authPermissions,
   };
