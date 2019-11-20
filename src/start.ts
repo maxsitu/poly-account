@@ -1,7 +1,6 @@
 import { createConnection } from 'typeorm';
-import express, {Request as ExpressRequest} from 'express';
+import express from 'express';
 import graphqlHTTP from 'express-graphql';
-import session from 'express-session';
 import 'reflect-metadata';
 
 import { createSessionMiddleware } from './middleware/session';
@@ -34,7 +33,7 @@ async function main() {
       graphqlHTTP((request) => ({
         schema: executableSchema,
         graphiql: isDev,
-        context: Object.assign({}, context, {session: (request as ExpressRequest).session}),
+        context: Object.assign({}, context, {session: (request as Express.Request).session}),
       })),
     );
 
