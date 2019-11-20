@@ -1,8 +1,10 @@
 import { createConnection } from 'typeorm';
-import express from 'express';
+import express, {Request as ExpressRequest} from 'express';
 import graphqlHTTP from 'express-graphql';
+import session from 'express-session';
 import 'reflect-metadata';
 
+import { createSessionMiddleware } from './middleware/session';
 import {IAppContext} from './types';
 import {executableSchema} from './graphql';
 import getLogger from './logging';
@@ -17,6 +19,8 @@ async function main() {
     const isDev = process.env.NODE_ENV === 'development';
     const port = 8088;
 
+    app.use(createSessionMiddleware('localhost', 6379, 'redis-secret'));
+
     const userController = new UserController(connection);
 
     const context: IAppContext = {
@@ -27,11 +31,11 @@ async function main() {
 
     app.use(
       '/graphql',
-      graphqlHTTP({
+      graphqlHTTP((request) => ({
         schema: executableSchema,
         graphiql: isDev,
-        context,
-      }),
+        context: Object.assign({}, context, {session: (request as ExpressRequest).session}),
+      })),
     );
 
     app.listen(port, () => {

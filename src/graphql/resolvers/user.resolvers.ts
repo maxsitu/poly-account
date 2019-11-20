@@ -16,7 +16,7 @@ interface ISignupArgs {
   password: string;
 }
 
-interface ILoginArgs extends ISignupArgs {}
+type ILoginArgs = ISignupArgs;
 
 async function getUser(
   _: any,
@@ -32,6 +32,11 @@ async function signup(
   { email, password }: ISignupArgs,
   context: IAppContext,
 ): Promise<IAuthPayload> {
+  const currUser = await context.userController.getUser(email);
+  if (currUser) {
+    throw new Error('User already exists');
+  }
+
   const passwordHash = await bcrypt.hash(password, 10);
   const user: User = await context.userController.createUser(
     email,
@@ -52,14 +57,14 @@ async function login(
 ): Promise<IAuthPayload> {
   const user = await context.userController.getUser(email);
   if (!user) {
-    throw new Error('No such user found')
+    throw new Error('No such user found');
   }
 
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) {
-    throw new Error('Invalid password')
+    throw new Error('Invalid password');
   }
-  
+
   const token = jwt.sign({ userId: user.email }, APP_SECRET);
   return {
     token,

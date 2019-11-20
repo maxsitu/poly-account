@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Debug TypeScript in Node.js",
+            "name": "Debug Node: launch",
             "program": "${workspaceRoot}/node_modules/ts-node-dev/bin/ts-node-dev",
             "args": [
                 "--inspect",
@@ -32,7 +32,7 @@
         {
             "type": "node",
             "request": "attach",
-            "name": "Node: Nodemon",
+            "name": "Debug Node: Attach Nodemon",
             "processId": "${command:PickProcess}",
             "restart": true,
             "protocol": "inspector"
