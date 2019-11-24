@@ -3,7 +3,6 @@ import * as bcrypt from 'bcryptjs';
 import { User } from 'src/entity/User';
 import { IAppContext } from 'src/types';
 import { IAuthUser, IAuthPayload, ILogoutResult, mapUserToIAuthUser } from 'src/graphql/interface';
-import waitForCallback from 'src/util/waitForCallback';
 import getLogger from 'src/logging';
 
 const logger = getLogger(module);
@@ -74,10 +73,19 @@ async function login(
       throw err;
     }
   });
-  context.session.currUser = user;
+
+  const authUser: IAuthUser = mapUserToIAuthUser(user);
+  context.session.currUser = authUser;
+
+  context.session.save((err) => {
+    if (err) {
+      logger.error('User session save failed', err);
+      throw err;
+    }
+  });
 
   return {
-    user: mapUserToIAuthUser(user),
+    user: authUser,
   };
 }
 

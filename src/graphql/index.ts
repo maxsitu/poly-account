@@ -4,7 +4,7 @@ import typeDefs from './schema';
 import resolvers from './resolvers';
 import EmailType from './scalar/EmailAddressType';
 import PhoneNumberType from './scalar/PhoneNumberType';
-import { IsAuthenticatedDirective } from './directive/IsAuthenticatedDirective';
+import { IsAuthenticatedDirective, HasAuthRoleDirective, HasAuthPermDirective } from './directive';
 
 const enrichedResolvers = Object.assign(resolvers, {
   EmailAddress: EmailType,
@@ -16,6 +16,8 @@ const executableSchema = makeExecutableSchema({
   resolvers: enrichedResolvers,
   schemaDirectives: {
     isAuthenticated: IsAuthenticatedDirective,
+    hasAuthRole: HasAuthRoleDirective,
+    hasAuthPerm: HasAuthPermDirective,
   },
 });
 
