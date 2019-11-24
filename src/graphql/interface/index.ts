@@ -3,5 +3,6 @@ export {
   IAuthPayload,
   IAuthRole,
   IAuthUser,
+  ILogoutResult,
   mapUserToIAuthUser,
 } from './auth';

@@ -25,7 +25,10 @@ interface IAuthUser {
 
 interface IAuthPayload {
   user: IAuthUser;
-  token: string;
+}
+
+interface ILogoutResult {
+  message: string;
 }
 
 function mapUserToIAuthUser(user: User): IAuthUser {
@@ -53,5 +56,6 @@ export {
   IAuthRole,
   IAuthUser,
   IAuthPayload,
+  ILogoutResult,
   mapUserToIAuthUser,
 };

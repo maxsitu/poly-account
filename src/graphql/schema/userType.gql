@@ -1,7 +1,7 @@
 scalar EmailAddress
 scalar PhoneNumber
 
-type User {
+type User @isAuthenticated {
     """
     email of the user
     """
@@ -87,7 +87,10 @@ input UserInput {
 
 type AuthPayload {
     user: User!
-    token: String!
+}
+
+type LogoutResult {
+    message: String!
 }
 
 """
@@ -100,4 +103,9 @@ type Mutation {
     """
     signup(email: EmailAddress!, password: String!): AuthPayload
     login(email: EmailAddress!, password: String!): AuthPayload
+
+    """
+    Logout
+    """
+    logout: LogoutResult
 }

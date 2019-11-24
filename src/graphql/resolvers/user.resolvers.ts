@@ -1,11 +1,12 @@
 import * as bcrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
 
 import { User } from 'src/entity/User';
 import { IAppContext } from 'src/types';
-import { IAuthUser, IAuthPayload, mapUserToIAuthUser } from 'src/graphql/interface';
+import { IAuthUser, IAuthPayload, ILogoutResult, mapUserToIAuthUser } from 'src/graphql/interface';
+import waitForCallback from 'src/util/waitForCallback';
+import getLogger from 'src/logging';
 
-const APP_SECRET = 'GraphQL-is-aw3some';
+const logger = getLogger(module);
 
 interface IGetUserArgs {
   email: string;
@@ -42,10 +43,8 @@ async function signup(
     email,
     passwordHash,
   );
-  const token = jwt.sign({ userId: user.email }, APP_SECRET);
 
   return {
-    token,
     user: mapUserToIAuthUser(user),
   };
 }
@@ -55,6 +54,10 @@ async function login(
   {email, password}: ILoginArgs,
   context: IAppContext,
 ): Promise<IAuthPayload> {
+  if (context.session.currUser) {
+    throw new Error('User is already logged in');
+  }
+
   const user = await context.userController.getUser(email);
   if (!user) {
     throw new Error('No such user found');
@@ -65,10 +68,32 @@ async function login(
     throw new Error('Invalid password');
   }
 
-  const token = jwt.sign({ userId: user.email }, APP_SECRET);
+  context.session.regenerate((err) => {
+    if (err) {
+      logger.error('User session regenerate failed', err);
+      throw err;
+    }
+  });
+  context.session.currUser = user;
+
   return {
-    token,
     user: mapUserToIAuthUser(user),
+  };
+}
+
+async function logout(_: any, args: object, context: IAppContext): Promise<ILogoutResult> {
+  if (!context.session.currUser) {
+    throw new Error('User need to login');
+  }
+  context.session.destroy((error) => {
+    if (error) {
+      logger.error('User session destroy failed', error);
+      throw error;
+    }
+  });
+
+  return {
+    message: 'User logout success',
   };
 }
 
@@ -81,5 +106,6 @@ export default {
   Mutation: {
     login,
     signup,
+    logout,
   },
 };

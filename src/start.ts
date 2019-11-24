@@ -4,8 +4,7 @@ import graphqlHTTP from 'express-graphql';
 import 'reflect-metadata';
 
 import { createSessionMiddleware } from './middleware/session';
-import {IAppContext} from './types';
-import {executableSchema} from './graphql';
+import { executableSchema } from './graphql';
 import getLogger from './logging';
 import UserController from './controller/UserController';
 
@@ -22,10 +21,6 @@ async function main() {
 
     const userController = new UserController(connection);
 
-    const context: IAppContext = {
-      userController,
-    };
-
     logger.debug(`dev: ${isDev}`);
 
     app.use(
@@ -33,7 +28,10 @@ async function main() {
       graphqlHTTP((request) => ({
         schema: executableSchema,
         graphiql: isDev,
-        context: Object.assign({}, context, {session: (request as Express.Request).session}),
+        context: {
+          session: (request as Express.Request).session,
+          userController,
+        },
       })),
     );
 

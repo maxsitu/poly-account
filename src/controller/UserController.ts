@@ -15,7 +15,7 @@ class UserController {
 
   public async getUser(email: string): Promise<User | null> {
     const user: User | undefined = await this.userRepo.findOne(email, { relations: ['roles']});
-    logger.info(`validating result ${JSON.stringify(user)}`);
+    logger.debug(`validating result ${JSON.stringify(user)}`);
     return user || null;
   }
 
