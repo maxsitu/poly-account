@@ -1,0 +1,21 @@
+type Query {    
+    """
+    Retrieve auth permission info using given name
+    """
+    authPermission(name: String!): AuthPermission
+
+    """
+    Retrieve all auth permission info
+    """
+    authPermissions: [AuthPermission]
+
+    """
+    Retrieve auth role info using given name
+    """
+    authRole(name: String!): AuthRole
+
+    """
+    Retrieve all auth role info
+    """
+    authRoles: [AuthRole]
+}

@@ -44,17 +44,6 @@ type User @isAuthenticated {
 }
 
 """
-Account service provide caller with abilities listed below:
-1. Find user info
-"""
-type Query {
-    """
-    Retrieve user info with given id
-    """
-    User(email: EmailAddress!): User
-}
-
-"""
 Expected user input type for signing up
 """
 input UserInput {
@@ -91,21 +80,4 @@ type AuthPayload {
 
 type LogoutResult {
     message: String!
-}
-
-"""
-Mutation methods of account service
-"""
-type Mutation {
-
-    """
-    Sign up new user
-    """
-    signup(email: EmailAddress!, password: String!): AuthPayload
-    login(email: EmailAddress!, password: String!): AuthPayload
-
-    """
-    Logout
-    """
-    logout: LogoutResult
 }

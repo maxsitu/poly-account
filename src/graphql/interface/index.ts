@@ -5,4 +5,6 @@ export {
   IAuthUser,
   ILogoutResult,
   mapUserToIAuthUser,
+  mapAuthRoleToIAuthRole,
+  mapAuthPermissionToIAuthPermission,
 } from './auth';

@@ -7,6 +7,7 @@ import { createSessionMiddleware } from './middleware/session';
 import { executableSchema } from './graphql';
 import getLogger from './logging';
 import UserController from './controller/UserController';
+import AuthController from './controller/AuthController';
 
 const logger = getLogger(module);
 
@@ -20,6 +21,7 @@ async function main() {
     app.use(createSessionMiddleware('localhost', 6379, 'redis-secret'));
 
     const userController = new UserController(connection);
+    const authController = new AuthController(connection);
 
     logger.debug(`dev: ${isDev}`);
 
@@ -31,6 +33,7 @@ async function main() {
         context: {
           session: (request as Express.Request).session,
           userController,
+          authController,
         },
       })),
     );

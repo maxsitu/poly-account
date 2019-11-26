@@ -1,0 +1,28 @@
+"""
+Account service provide caller with abilities listed below:
+"""
+type Query {
+    """
+    Retrieve user info with given id
+    """
+    user(email: EmailAddress!): User
+}
+
+"""
+Mutation methods of account service
+"""
+type Mutation {
+
+    """
+    Sign up new user
+    """
+    signup(email: EmailAddress!, password: String!): AuthPayload
+    login(email: EmailAddress!, password: String!): AuthPayload
+
+    """
+    Logout
+    """
+    logout: LogoutResult
+
+
+}

@@ -51,6 +51,24 @@ function mapUserToIAuthUser(user: User): IAuthUser {
   };
 }
 
+function mapAuthRoleToIAuthRole(authRole: AuthRole): IAuthRole {
+  const {name, desc} = authRole;
+
+  return {
+    name,
+    desc,
+  };
+}
+
+function mapAuthPermissionToIAuthPermission(authPermission: AuthPermission): IAuthPermission {
+  const {name, desc} = authPermission;
+
+  return {
+    name,
+    desc,
+  };
+}
+
 export {
   IAuthPermission,
   IAuthRole,
@@ -58,4 +76,6 @@ export {
   IAuthPayload,
   ILogoutResult,
   mapUserToIAuthUser,
+  mapAuthRoleToIAuthRole,
+  mapAuthPermissionToIAuthPermission,
 };

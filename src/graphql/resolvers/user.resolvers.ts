@@ -109,7 +109,7 @@ export { IGetUserArgs, ISignupArgs, ILoginArgs };
 
 export default {
   Query: {
-    User: getUser,
+    user: getUser,
   },
   Mutation: {
     login,

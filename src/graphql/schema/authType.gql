@@ -1,0 +1,23 @@
+type AuthRole {
+  """
+  name of the role
+  """
+  name: String!
+
+  """
+  description of the role
+  """
+  desc: String!
+}
+
+type AuthPermission {
+  """
+  name of the role
+  """
+  name: String!
+
+  """
+  description of the role
+  """
+  desc: String!
+}

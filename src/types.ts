@@ -1,4 +1,5 @@
 import UserController from './controller/UserController';
+import AuthController from './controller/AuthController';
 import { IAuthUser } from './graphql/interface';
 
 interface ISession extends Express.Session {
@@ -7,6 +8,7 @@ interface ISession extends Express.Session {
 
 interface IAppContext {
     userController: UserController;
+    authController: AuthController;
     session: ISession;
 }
 
