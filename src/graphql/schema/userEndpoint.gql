@@ -5,7 +5,7 @@ type Query {
     """
     Retrieve user info with given id
     """
-    user(email: EmailAddress!): User
+    user(email: EmailAddress!): User @isAuthenticated
 }
 
 """

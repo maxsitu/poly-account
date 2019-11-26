@@ -1,7 +1,7 @@
 scalar EmailAddress
 scalar PhoneNumber
 
-type User @isAuthenticated {
+type User {
     """
     email of the user
     """
@@ -35,7 +35,7 @@ type User @isAuthenticated {
     """
     auth roles of the user
     """
-    authRoles: [String]!
+    authRoles: [String]! @hasAuthRole(roles: ["account.admin"])
 
     """
     auth permission of the user

@@ -1,3 +1,9 @@
 directive @isAuthenticated on FIELD_DEFINITION | OBJECT
-directive @hasAuthRole on FIELD_DEFINITION | OBJECT
-directive @hasAuthPerm on FIELD_DEFINITION | OBJECT
+
+directive @hasAuthRole(
+  roles: [String]
+) on FIELD_DEFINITION | OBJECT
+
+directive @hasAuthPerm(
+  perm: String
+) on FIELD_DEFINITION | OBJECT
