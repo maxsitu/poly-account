@@ -50,11 +50,11 @@ function mapUserToIAuthUser(user: User): IAuthUser {
 
 function mapAuthRoleToIAuthRole(authRole: AuthRole): IAuthRole {
   const {name, desc, permissions} = authRole;
-
+  const perms = (permissions ? permissions.map(mapAuthPermissionToIAuthPermission) : []);
   return {
     name,
     desc,
-    permissions: (permissions ? permissions.map(mapAuthPermissionToIAuthPermission) : []),
+    permissions: perms,
   };
 }
 

@@ -24,12 +24,13 @@ class AuthController {
   public async getAuthRole(name: string): Promise<AuthRole | null> {
     const authRole: AuthRole | undefined = await this.authRoleRepo.findOne({
       where: { name },
+      relations: ['permissions'],
     });
     return authRole || null;
   }
 
   public async getAllAuthRoles(): Promise<AuthRole[]> {
-    return await this.authRoleRepo.find();
+    return await this.authRoleRepo.find({ relations: ['permissions'] });
   }
 
   public async createAuthRole(name: string, desc: string) {
