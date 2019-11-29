@@ -8,6 +8,11 @@ type AuthRole {
   description of the role
   """
   desc: String!
+
+  """
+  permissions assigned to the role
+  """
+  permissions: [AuthPermission]!
 }
 
 type AuthPermission {

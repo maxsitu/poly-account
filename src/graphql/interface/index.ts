@@ -1,9 +1,13 @@
 export {
+  MutationStatus,
+  IMutationResult,
+} from './common';
+
+export {
   IAuthPermission,
   IAuthPayload,
   IAuthRole,
   IAuthUser,
-  ILogoutResult,
   mapUserToIAuthUser,
   mapAuthRoleToIAuthRole,
   mapAuthPermissionToIAuthPermission,

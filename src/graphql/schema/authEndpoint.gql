@@ -19,3 +19,25 @@ type Query {
     """
     authRoles: [AuthRole]
 }
+
+type Mutation {
+    """
+    create new auth role
+    """
+    createAuthRole(name: String!, desc: String!): AuthRole
+
+    """
+    modify existing auth role
+    """
+    modifyAuthRole(name: String!, desc: String, permissions: [String]): AuthRole
+
+    """
+    create new auth permission
+    """
+    createAuthPermission(name: String!, desc: String!): AuthPermission
+
+    """
+    modify existing auth permission
+    """
+    modifyAuthPermission(name: String!, desc: String!): AuthPermission
+}

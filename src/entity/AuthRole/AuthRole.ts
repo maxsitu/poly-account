@@ -18,7 +18,7 @@ class AuthRole {
 
   @ManyToMany((t) => AuthPermission)
   @JoinTable()
-  public permissions: AuthPermission[];
+  public permissions: AuthPermission[] | null;
 
   constructor(id: number, name: string, desc: string, permissions: AuthPermission[]) {
     this.id = id;

@@ -1,0 +1,13 @@
+enum MutationStatus {
+    SUCCESS
+    FAILURE
+}
+
+type MutationResult {
+  status: MutationStatus!
+
+  """
+  message 
+  """
+  message: String
+}

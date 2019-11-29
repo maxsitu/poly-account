@@ -2,15 +2,39 @@ import { IAuthRole, IAuthPermission } from 'src/graphql/interface';
 import { IAppContext } from 'src/types';
 import { mapAuthRoleToIAuthRole, mapAuthPermissionToIAuthPermission } from '../interface/auth';
 
-interface IGetAuthRoleArgs {
+interface IGetAuthRoleArgsType {
   name: string;
 }
 
-type IGetAuthPermissionArgs = IGetAuthRoleArgs;
+interface IGetAuthPermissionArgsType {
+  name: string;
+}
+
+interface ICreateAuthRoleArgsType {
+  name: string;
+  desc: string;
+}
+
+
+interface IModifyAuthRoleArgsType {
+  name: string;
+  desc: string;
+  permissions?: string[];
+}
+
+interface ICreateAuthPermissionArgsType {
+  name: string;
+  desc: string;
+}
+
+interface IModifyAuthPermissionArgsType {
+  name: string;
+  desc: string;
+}
 
 async function getAuthRole(
   _: any,
-  { name }: IGetAuthRoleArgs,
+  { name }: IGetAuthRoleArgsType,
   context: IAppContext,
 ): Promise<IAuthRole | null> {
   const authRole = await context.authController.getAuthRole(name);
@@ -29,7 +53,7 @@ async function allAuthRoles(
 
 async function getAuthPermission(
   _: any,
-  { name }: IGetAuthPermissionArgs,
+  { name }: IGetAuthPermissionArgsType,
   context: IAppContext,
 ): Promise<IAuthPermission | null> {
   const authPermission = await context.authController.getAuthPermission(name);
@@ -46,7 +70,48 @@ async function allAuthPermissions(
   return perms.map(mapAuthPermissionToIAuthPermission);
 }
 
-export { IGetAuthRoleArgs, IGetAuthPermissionArgs };
+async function createAuthRole(
+  _: any,
+  { name, desc }: ICreateAuthRoleArgsType,
+  context: IAppContext,
+): Promise<IAuthRole> {
+  const role = await context.authController.createAuthRole(name, desc);
+  return mapAuthRoleToIAuthRole(role);
+}
+
+async function modifyAuthRole(
+  _: any,
+  { name, desc, permissions }: IModifyAuthRoleArgsType,
+  context: IAppContext,
+): Promise<IAuthRole> {
+  const role = await context.authController.updateAuthRole(name, desc, permissions);
+  return mapAuthRoleToIAuthRole(role);
+}
+
+async function createAuthPermission(
+  _: any,
+  { name, desc }: ICreateAuthPermissionArgsType,
+  context: IAppContext,
+): Promise<IAuthPermission> {
+  const perm = await context.authController.createAuthPermission(name, desc);
+  return mapAuthPermissionToIAuthPermission(perm);
+}
+
+async function modifyAuthPermission(
+  _: any,
+  { name, desc }: IModifyAuthPermissionArgsType,
+  context: IAppContext,
+): Promise<IAuthPermission> {
+  const perm = await context.authController.updateAuthPermission(name, desc);
+  return mapAuthPermissionToIAuthPermission(perm);
+}
+
+export {
+  IGetAuthRoleArgsType,
+  IGetAuthPermissionArgsType,
+  ICreateAuthRoleArgsType,
+  IModifyAuthPermissionArgsType,
+};
 
 export default {
   Query: {
@@ -56,6 +121,9 @@ export default {
     authPermissions: allAuthPermissions,
   },
   Mutation: {
-    // TODO: Add auth mutation methods
+    createAuthRole,
+    modifyAuthRole,
+    createAuthPermission,
+    modifyAuthPermission,
   },
 };

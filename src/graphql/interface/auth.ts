@@ -10,6 +10,7 @@ interface IAuthPermission {
 interface IAuthRole {
   name: string;
   desc: string;
+  permissions: IAuthPermission[];
 }
 
 interface IAuthUser {
@@ -25,10 +26,6 @@ interface IAuthUser {
 
 interface IAuthPayload {
   user: IAuthUser;
-}
-
-interface ILogoutResult {
-  message: string;
 }
 
 function mapUserToIAuthUser(user: User): IAuthUser {
@@ -52,11 +49,12 @@ function mapUserToIAuthUser(user: User): IAuthUser {
 }
 
 function mapAuthRoleToIAuthRole(authRole: AuthRole): IAuthRole {
-  const {name, desc} = authRole;
+  const {name, desc, permissions} = authRole;
 
   return {
     name,
     desc,
+    permissions: (permissions ? permissions.map(mapAuthPermissionToIAuthPermission) : []),
   };
 }
 
@@ -74,7 +72,6 @@ export {
   IAuthRole,
   IAuthUser,
   IAuthPayload,
-  ILogoutResult,
   mapUserToIAuthUser,
   mapAuthRoleToIAuthRole,
   mapAuthPermissionToIAuthPermission,

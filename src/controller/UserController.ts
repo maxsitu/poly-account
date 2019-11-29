@@ -1,5 +1,4 @@
 import { Connection, Repository } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 
 import { User, userValidationSchema } from 'src/entity/User/User';
 import getLogger from 'src/logging';

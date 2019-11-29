@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs';
 
 import { User } from 'src/entity/User';
 import { IAppContext } from 'src/types';
-import { IAuthUser, IAuthPayload, ILogoutResult, mapUserToIAuthUser } from 'src/graphql/interface';
+import { MutationStatus, IAuthUser, IAuthPayload, IMutationResult, mapUserToIAuthUser } from 'src/graphql/interface';
 import getLogger from 'src/logging';
 
 const logger = getLogger(module);
@@ -89,7 +89,7 @@ async function login(
   };
 }
 
-async function logout(_: any, args: object, context: IAppContext): Promise<ILogoutResult> {
+async function logout(_: any, args: object, context: IAppContext): Promise<IMutationResult> {
   if (!context.session.currUser) {
     throw new Error('User need to login');
   }
@@ -101,7 +101,7 @@ async function logout(_: any, args: object, context: IAppContext): Promise<ILogo
   });
 
   return {
-    message: 'User logout success',
+    status: MutationStatus.SUCCESS,
   };
 }
 

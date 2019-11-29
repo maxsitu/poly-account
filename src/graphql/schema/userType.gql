@@ -43,41 +43,6 @@ type User {
     authPermissions: [String]!
 }
 
-"""
-Expected user input type for signing up
-"""
-input UserInput {
-
-    """
-    email of the user
-    """
-    email: EmailAddress!
-
-    """
-    phone number of the user
-    """
-    phone: PhoneNumber!
-
-    """
-    first name of the user
-    """
-    firstName: String!
-
-    """
-    middle name of the user
-    """
-    middleName: String
-
-    """
-    last name of the user
-    """
-    lastName: String!
-}
-
 type AuthPayload {
     user: User!
-}
-
-type LogoutResult {
-    message: String!
 }

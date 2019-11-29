@@ -22,6 +22,6 @@ export function createSessionMiddleware(host: string, port: number, secret: stri
         store: createRedisStore(host, port),
         secret,
         resave: false,
-        cookie: { maxAge: 60000 },
+        cookie: { maxAge: 240000 },
     });
 }

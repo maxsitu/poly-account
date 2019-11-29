@@ -54,9 +54,11 @@ class User {
   getPermissions(): Set<AuthPermission> {
     const result = new Set<AuthPermission>();
     this.roles.forEach((role) => {
-      role.permissions.forEach((perm) => {
-        result.add(perm);
-      });
+      if (role.permissions) {
+        role.permissions.forEach((perm) => {
+          result.add(perm);
+        });
+      }
     });
 
     return result;

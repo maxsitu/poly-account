@@ -22,7 +22,5 @@ type Mutation {
     """
     Logout
     """
-    logout: LogoutResult
-
-
+    logout: MutationResult
 }
