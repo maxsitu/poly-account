@@ -51,3 +51,159 @@ Go through following steps to make sure old DB is cleaned up:
    ```
    npm run typeorm migration:run
    ```
+
+## Run Service
+If the developer needs to debug in dev mode, run command below:
+```bash
+npm run dev:debug
+```
+
+Otherwise run in dev mode:
+```bash
+npm run dev
+```
+
+For production, run:
+```bash
+npm run start
+```
+
+## Endpoints
+Signup
+```graphql
+mutation {
+  signup(email: "situ.ma@maxsitu.com", password: "abc123") {
+    user {
+        email
+        firstName
+    }
+  }
+}
+```
+
+Login
+```graphql
+mutation {
+    login(email: "situ.ma@maxsitu.com", password: "abc123") {
+        user {
+            email
+            firstName
+            lastName
+        }
+    }
+}
+```
+
+Logout
+```graphql
+mutation {
+  logout {
+      status
+      message
+  }
+}
+```
+
+Get User
+```graphql
+{
+  user(email: "situ.ma@maxsitu.com") {
+    email
+    firstName
+    lastName
+    authRoles
+  }
+}
+```
+
+All Auth Roles
+```graphql
+{
+    authRoles {
+        name
+        desc
+        permissions {
+            name
+            desc
+        }
+    }
+}
+```
+
+Get Auth Role
+```graphql
+{
+    authRole(name: "account.admin") {
+        name
+        desc
+        permissions {
+            name
+            desc
+        }
+    }
+}
+```
+
+All Auth Permissions
+```graphql
+{
+    authPermissions {
+        name
+        desc
+    }
+}
+```
+
+Get Auth Permissions
+```graphql
+{
+    authPermission(name: "view.auth.role") {
+        name
+        desc
+    }
+}
+```
+
+Create Auth Role
+```graphql
+mutation {
+    createAuthRole(name: "auth.admin", desc: "admin on auth domain") {
+        name
+        desc
+    }
+}
+```
+
+Modify Auth Role
+```graphql
+mutation {
+    modifyAuthRole(name: "auth.admin", desc: "admin on auth domain", permissions: ["view.auth.role"]) {
+        name
+        desc
+        permissions {
+            name
+            desc
+        }
+    }
+}
+```
+
+Create Auth Permission
+```graphql
+mutation {
+    createAuthPermission(name: "view.auth.role", desc: "Permission of viewing role") {
+        name
+        desc
+    }
+}
+```
+
+Modify Auth Permission
+```graphql
+mutation {
+    modifyAuthPermission(name: "view.edit.role", desc: "Permission to view role") {
+        name
+        desc
+    }
+}
+```
