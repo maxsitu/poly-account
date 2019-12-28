@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "Account service built on GraphQL and mysql providing user authenticate/authorization services",
   "main": "start.ts",
-  "build-dir": "dist",
+  "build_dir": "dist",
   "scripts": {
     "test": "test",
     "typeorm": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix && rm -rf ${npm_package_build-dir}",
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix && del ${npm_package_build_dir}",
     "build": "tsc",
+    "postbuild": "cpy '**/*' '!**/*.ts' ../${npm_package_build_dir}/ --cwd=src/ --no-overwrite --parents",
     "dev": "nodemon src/start.ts",
     "dev:debug": "nodemon --inspect src/start.ts",
     "start": "ts-node -r tsconfig-paths/register ./src/start.ts"
@@ -25,6 +26,7 @@
     "apollo-errors": "^1.9.0",
     "bcryptjs": "^2.4.3",
     "connect-redis": "^4.0.3",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "express-session": "^1.17.0",
@@ -36,7 +38,7 @@
     "pg": "^7.12.1",
     "redis": "^2.8.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.19",
+    "typeorm": "^0.2.22",
     "uuid": "^3.3.3",
     "winston": "^3.2.1",
     "yup": "^0.27.0"
@@ -53,6 +55,8 @@
     "@types/redis": "^2.8.14",
     "@types/uuid": "^3.4.5",
     "@types/yup": "^0.26.24",
+    "cpy-cli": "^2.0.0",
+    "del-cli": "^3.0.0",
     "nodemon": "^1.19.3",
     "ts-node": "^8.4.1",
     "ts-node-dev": "^1.0.0-pre.43",
@@ -61,6 +65,6 @@
     "typescript": "^3.6.3"
   },
   "files": [
-    "${npm_package_build-dir}/**/*"
+    "${npm_package_build_dir}/**/*"
   ]
 }

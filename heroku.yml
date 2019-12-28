@@ -1,0 +1,11 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+
+build:
+  docker:
+    web: Dockerfile
+
+run: 
+  web: ts-node -r tsconfig-paths/register ./src/start.ts
