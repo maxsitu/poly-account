@@ -1,11 +1,7 @@
 require('dotenv').config();
 
 const database = {
-    host: process.env.DATABASE_HOST,
-    port: Number(process.env.DATABASE_PORT),
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_DB,
+    url: process.env.DATABASE_URL,
     synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
     logging: Boolean(process.env.DATABASE_LOGGING),
     connectionLimit: Number(process.env.DATABASE_CONNECTION_LIMIT),
@@ -13,11 +9,7 @@ const database = {
 
 const config = {
     type: 'postgres',
-    host: database.host,
-    port: database.port,
-    username: database.username,
-    password: database.password,
-    database: database.database,
+    url: database.url,
     synchronize: database.synchronize,
     logging: database.logging,
     entities: [
