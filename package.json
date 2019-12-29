@@ -12,7 +12,7 @@
     "postbuild": "cpy '**/*' '!**/*.ts' ../${npm_package_build_dir}/ --cwd=src/ --no-overwrite --parents",
     "dev": "nodemon src/start.ts",
     "dev:debug": "nodemon --inspect src/start.ts",
-    "start": "ts-node -r tsconfig-paths/register ./src/start.ts"
+    "start": "npx ts-node -r tsconfig-paths/register ./src/start.ts"
   },
   "keywords": [
     "typescript",

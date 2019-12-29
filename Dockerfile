@@ -8,4 +8,4 @@ RUN npm install --silent
 COPY . /app
 EXPOSE 80
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
