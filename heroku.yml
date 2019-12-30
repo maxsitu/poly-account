@@ -8,4 +8,4 @@ build:
     web: Dockerfile
 
 run: 
-  web: npm run start
+  web: node ./start.js
