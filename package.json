@@ -9,7 +9,7 @@
     "typeorm": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix && del ${npm_package_build_dir}",
     "build": "tsc",
-    "postbuild": "cpy '**/*' '!**/*.ts' ../${npm_package_build_dir}/ --cwd=src/ --no-overwrite --parents",
+    "postbuild": "cpy '**/*' '!**/*.ts' ../${npm_package_build_dir}/ --cwd=src/ --no-overwrite --parents && cp ormconfig.js ${npm_package_build_dir}/",
     "dev": "nodemon src/start.ts",
     "dev:debug": "nodemon --inspect src/start.ts",
     "start": "npx ts-node -r tsconfig-paths/register ./src/start.ts"
@@ -41,10 +41,7 @@
     "typeorm": "^0.2.22",
     "uuid": "^3.3.3",
     "winston": "^3.2.1",
-    "yup": "^0.27.0",
-    "typescript": "^3.7.4",
-    "tsconfig-paths": "^3.9.0",
-    "ts-node": "^8.4.1"
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -62,7 +59,10 @@
     "del-cli": "^3.0.0",
     "nodemon": "^1.19.3",
     "ts-node-dev": "^1.0.0-pre.43",
-    "tslint": "^5.20.0"
+    "tslint": "^5.20.0",
+    "typescript": "^3.7.4",
+    "tsconfig-paths": "^3.9.0",
+    "ts-node": "^8.4.1"
   },
   "files": [
     "${npm_package_build_dir}/**/*"

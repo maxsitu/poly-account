@@ -1,9 +1,9 @@
 import * as bcrypt from 'bcryptjs';
 
-import { User } from 'src/entity/User';
-import { IAppContext } from 'src/types';
-import { MutationStatus, IAuthUser, IAuthPayload, IMutationResult, mapUserToIAuthUser } from 'src/graphql/interface';
-import getLogger from 'src/logging';
+import { User } from '../../entity/User';
+import { IAppContext } from '../../types';
+import { MutationStatus, IAuthUser, IAuthPayload, IMutationResult, mapUserToIAuthUser } from '../../graphql/interface';
+import getLogger from '../../logging';
 
 const logger = getLogger(module);
 

@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { Entity, PrimaryColumn, Column, ManyToMany, JoinTable, CreateDateColumn } from 'typeorm';
 
-import { UserConstant } from 'src/constant';
+import { UserConstant } from '../../constant';
 import { AuthRole } from '../AuthRole';
 import { AuthPermission } from '../AuthPermission';
 

@@ -1,6 +1,6 @@
-import { User } from 'src/entity/User';
-import { AuthRole } from 'src/entity/AuthRole';
-import { AuthPermission } from 'src/entity/AuthPermission';
+import { User } from '../../entity/User';
+import { AuthRole } from '../../entity/AuthRole';
+import { AuthPermission } from '../../entity/AuthPermission';
 
 interface IAuthPermission {
   name: string;

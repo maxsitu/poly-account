@@ -7,24 +7,26 @@ const database = {
     connectionLimit: Number(process.env.DATABASE_CONNECTION_LIMIT),
 };
 
+const isDist = !process.env.TS_NODE;
+const rootEntityDir = isDist ? 'dist' : 'src';
 const config = {
     type: 'postgres',
     url: database.url,
     synchronize: database.synchronize,
     logging: database.logging,
     entities: [
-        'src/entity/**/*.ts',
+        isDist ? `${rootEntityDir}/entity/**/*.js` : `${rootEntityDir}/entity/**/*.ts`,
     ],
     migrations: [
-        'src/migration/**/*.js',
+        `${rootEntityDir}/migration/**/*.js`,
     ],
     subscribers: [
-        'src/subscriber/**/*.js',
+        `${rootEntityDir}/subscriber/**/*.js`,
     ],
     cli: {
-        entitiesDir: 'src/entity',
-        migrationsDir: 'src/migration',
-        subscribersDir: 'src/subscriber',
+        entitiesDir: `${rootEntityDir}/entity`,
+        migrationsDir: `${rootEntityDir}/migration`,
+        subscribersDir: `${rootEntityDir}/subscriber`,
     },
     extra: {
         ssl: (process.env.NODE_ENV === 'production' ? true : false),

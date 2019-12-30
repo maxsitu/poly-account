@@ -1,5 +1,5 @@
-import { IAuthRole, IAuthPermission } from 'src/graphql/interface';
-import { IAppContext } from 'src/types';
+import { IAuthRole, IAuthPermission } from '../../graphql/interface';
+import { IAppContext } from '../../types';
 import { mapAuthRoleToIAuthRole, mapAuthPermissionToIAuthPermission } from '../interface/auth';
 
 interface IGetAuthRoleArgsType {

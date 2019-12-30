@@ -1,9 +1,9 @@
 import { GraphQLField, GraphQLObjectType, defaultFieldResolver } from 'graphql';
 import { SchemaDirectiveVisitor } from 'graphql-tools';
 
-import { AuthenticationError, AuthorizationError } from 'src/error';
-import { IAppContext } from 'src/types';
-import getLogger from 'src/logging';
+import { AuthenticationError, AuthorizationError } from '../../error';
+import { IAppContext } from '../../types';
+import getLogger from '../../logging';
 
 const logger = getLogger(module);
 

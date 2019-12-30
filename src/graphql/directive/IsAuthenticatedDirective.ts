@@ -1,8 +1,8 @@
 import { GraphQLField, GraphQLObjectType, defaultFieldResolver } from 'graphql';
 import { SchemaDirectiveVisitor } from 'graphql-tools';
 
-import { AuthenticationError, AuthorizationError } from 'src/error';
-import { IAppContext } from 'src/types';
+import { AuthenticationError, AuthorizationError } from '../../error';
+import { IAppContext } from '../../types';
 
 class IsAuthenticatedDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field: GraphQLField<any, any>) {

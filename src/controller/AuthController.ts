@@ -3,12 +3,12 @@ import { Connection, Repository } from 'typeorm';
 import {
   AuthRole,
   authRoleValidationSchema,
-} from 'src/entity/AuthRole/AuthRole';
+} from '../entity/AuthRole/AuthRole';
 import {
   AuthPermission,
   authPermissionValidationSchema,
-} from 'src/entity/AuthPermission/AuthPermission';
-import getLogger from 'src/logging';
+} from '../entity/AuthPermission/AuthPermission';
+import getLogger from '../logging';
 
 const logger = getLogger(module);
 

@@ -1,7 +1,7 @@
 import { Connection, Repository } from 'typeorm';
 
-import { User, userValidationSchema } from 'src/entity/User/User';
-import getLogger from 'src/logging';
+import { User, userValidationSchema } from '../entity/User/User';
+import getLogger from '../logging';
 
 const logger = getLogger(module);
 
