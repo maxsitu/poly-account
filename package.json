@@ -12,7 +12,8 @@
     "postbuild": "cpy '**/*' '!**/*.ts' ../${npm_package_build_dir}/ --cwd=src/ --no-overwrite --parents && cpy 'ormconfig.js' ${npm_package_build_dir}/ --cwd=. --no-overwrite",
     "dev": "nodemon src/start.ts",
     "dev:debug": "nodemon --inspect src/start.ts",
-    "start": "node dist/start.js"
+    "start": "node dist/start.js",
+    "heroku-postbuild": "typeorm migration:run"
   },
   "keywords": [
     "typescript",
