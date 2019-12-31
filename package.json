@@ -67,5 +67,8 @@
   },
   "files": [
     "${npm_package_build_dir}/**/*"
-  ]
+  ],
+  "engines": {
+    "node": "^13.0.1"
+  }
 }
