@@ -7,15 +7,17 @@ const database = {
     connectionLimit: Number(process.env.DATABASE_CONNECTION_LIMIT),
 };
 
-const isDist = !process.env.TS_NODE;
-const rootEntityDir = isDist ? 'dist' : 'src';
+const isDist = process.env.NODE_ENV !== 'development';
+const entityFileExtension = (isDist ? 'js' : 'ts');
+const rootEntityDir = (isDist ? 'dist' : 'src');
+
 const config = {
     type: 'postgres',
     url: database.url,
     synchronize: database.synchronize,
     logging: database.logging,
     entities: [
-        isDist ? `${rootEntityDir}/entity/**/*.js` : `${rootEntityDir}/entity/**/*.ts`,
+        `${rootEntityDir}/entity/**/*.${entityFileExtension}`,
     ],
     migrations: [
         `${rootEntityDir}/migration/**/*.js`,
@@ -33,5 +35,7 @@ const config = {
         connectionLimit: database.connectionLimit,
     },
 };
+
+console.log(config);
 
 module.exports = config;
