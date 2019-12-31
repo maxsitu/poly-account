@@ -29,8 +29,7 @@ async function main() {
 
     app.use(
       createSessionMiddleware(
-        CacheConstant.redisHost,
-        CacheConstant.redisPort,
+        CacheConstant.redisUrl,
         CacheConstant.redisSecret,
         CacheConstant.redisCookieMaxAge,
       ),

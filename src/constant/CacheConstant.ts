@@ -1,6 +1,5 @@
 const cacheConstant = {
-  redisHost: process.env.REDIS_HOST || '',
-  redisPort: Number(process.env.REDIS_PORT) || 6379,
+  redisUrl: process.env.REDIS_URL || '',
   redisSecret: process.env.REDIS_SECRET || '',
   redisCookieMaxAge: Number(process.env.REDIS_COOKIE_MAX_AGE) || 60000,
 };
