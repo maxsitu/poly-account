@@ -24,7 +24,7 @@ async function main() {
   try {
     const connection = await prepareDatabase();
     const app = express();
-    const isDev = process.env.NODE_ENV === 'development';
+    const useGraphiql = process.env.USE_GRAPHIQL === 'true';
     const port = process.env.PORT || 80;
 
     app.use(
@@ -38,13 +38,11 @@ async function main() {
     const userController = new UserController(connection);
     const authController = new AuthController(connection);
 
-    logger.debug(`dev: ${isDev}`);
-
     app.use(
       '/graphql',
       graphqlHTTP((request) => ({
         schema: executableSchema,
-        graphiql: isDev,
+        graphiql: useGraphiql,
         context: {
           session: (request as Express.Request).session,
           userController,
