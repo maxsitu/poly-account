@@ -25,7 +25,7 @@ async function main() {
     const connection = await prepareDatabase();
     const app = express();
     const isDev = process.env.NODE_ENV === 'development';
-    const port = 80;
+    const port = process.env.PORT || 80;
 
     app.use(
       createSessionMiddleware(
@@ -55,7 +55,7 @@ async function main() {
     );
 
     app.listen(port, () => {
-      logger.info(`\n\nExpress instance listen at ${port}\n`);
+      logger.info(`\n\n Express instance listen at ${port}\n`);
     });
   } catch (error) {
     logger.error('Database connection error', error);
