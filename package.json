@@ -8,12 +8,11 @@
     "test": "test",
     "typeorm": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix && del ${npm_package_build_dir}",
-    "build": "tsc",
-    "postbuild": "cpy '**/*' '!**/*.ts' ../${npm_package_build_dir}/ --cwd=src/ --no-overwrite --parents && cpy 'ormconfig.js' ${npm_package_build_dir}/ --cwd=. --no-overwrite",
+    "build": "script/build.sh",
     "dev": "nodemon src/start.ts",
     "dev:debug": "nodemon --inspect src/start.ts",
     "start": "node dist/start.js",
-    "heroku-postbuild": "typeorm migration:run"
+    "heroku-postbuild": "script/build.sh && typeorm migration:run"
   },
   "keywords": [
     "typescript",
