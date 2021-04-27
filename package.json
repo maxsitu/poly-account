@@ -36,7 +36,7 @@
     "jsonwebtoken": "^8.5.1",
     "merge-graphql-schemas": "^1.7.0",
     "pg": "^7.12.1",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.22",
     "uuid": "^3.3.3",
